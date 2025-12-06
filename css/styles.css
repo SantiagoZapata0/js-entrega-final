@@ -260,6 +260,24 @@ header a:hover{
     margin-bottom: 5px;
 }
 
+.botonEliminar{
+    width: 25px;
+    height: 25px;
+    padding: 0.1rem;
+    font-weight: 900;
+    color: #fff;
+    background-color: #3131de;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.botonEliminar:hover{
+    background-color: #0c2167;
+    transition: 0.3s;
+}
+
 .shopping-cart-finish{
     display: flex;
     align-items: center;

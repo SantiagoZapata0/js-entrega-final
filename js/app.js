@@ -83,6 +83,23 @@ new Producto (5, "Galax", "NVIDIA RTX 4080", 520000, "../assets/Galax RTX 4080.p
 new Producto (6, "ZOTAC", " NVIDIA RTX 5060", 650000, "../assets/ZOTAC RTX 5060.jpg")
 ]
 
+for (let i = 0; i < productos.length; i++){
+    const idProducto = `product${i + 1}`
+    const idPrecio = `product${i + 1}-price`
+    const idImg = `product${i + 1}-img`
+
+    let elementoProducto = document.getElementById(idProducto);
+    let elementoPrecio = document.getElementById(idPrecio);
+    let elementoImagen = document.getElementById(idImg);
+
+    if(elementoProducto && elementoPrecio && elementoImagen){
+        elementoProducto.innerText = `${productos[i].marca} ${productos[i].modelo}`
+        elementoPrecio.innerText = `$${productos[i].precio}`;
+        elementoImagen.src = productos[i].imagen;
+        elementoImagen.alt = `Tarjeta grafica ${productos[i].modelo}`
+    }
+}
+
 let miCarrito = JSON.parse(sessionStorage.getItem("miCarrito")) || [];
 
 const contenedorCarrito = document.getElementById("shopping-cart");
@@ -99,15 +116,34 @@ function agregarAlCarrito(producto){
         actualizarCarrito();
     }
     contadorCarrito.innerText = miCarrito.length;
-}
+};
 
 const botones = document.querySelectorAll(".product-button");
 
 botones.forEach((boton, index) => {
     boton.addEventListener("click", () => {
         agregarAlCarrito(productos[index]);
+        contadorCarrito.innerText = `Mi carrito(${miCarrito.length})`;
     });
 });
+
+function activarBotonesEliminar() {
+    const botonesEliminar = document.querySelectorAll(".botonEliminar")
+    
+    botonesEliminar.forEach((boton) => {
+        boton.addEventListener("click", () => {
+            const index = boton.getAttribute("data-index");
+
+            eliminardelCarrito(index);
+            contadorCarrito.innerText = `Mi carrito(${miCarrito.length})`;
+        })
+    })
+}
+function eliminardelCarrito(index) {
+    miCarrito.splice(index, 1);
+    sessionStorage.setItem("miCarrito", JSON.stringify(miCarrito));
+    actualizarCarrito();
+}
 
 function actualizarCarrito(){
     contenedorCarrito.innerHTML = `
@@ -119,53 +155,36 @@ function actualizarCarrito(){
         carritoTotal.innerText = "Total: $0";
         return;
     }
-
+    
     mensajeVacio.style.display = "none";
     tituloCarrito.style.display = "block";
-
-    miCarrito.forEach(producto => {
+    
+    miCarrito.forEach((producto, index) => {
         const item = document.createElement("div");
         item.classList.add("shopping-cart-item");
         item.innerHTML = `
-            <img class ="shopping-cart-image" src="${producto.imagen}">
-            <h3>${producto.marca} ${producto.modelo} - $${producto.precio}</h3>
+        <img class ="shopping-cart-image" src="${producto.imagen}">
+        <h3>${producto.marca} ${producto.modelo} - $${producto.precio}</h3>
+        <button class="botonEliminar" data-index ="${index}">X</button>
         `;
         contenedorCarrito.appendChild(item);
     });
-
     const totalDiv = document.createElement("div");
-totalDiv.classList.add("shopping-cart-total");
-
-const total = miCarrito.reduce((acc, p) => acc + p.precio, 0);
-
-totalDiv.innerHTML = `
-<div class="shopping-cart-finish">
-<h3 class="shopping-cart-total" id="shopping-cart-total">Total: $${total}</h3>
-<button class="shopping-cart-button" id="shopping-cart-button">Finalizar compra</button>
-</div>`;
-
-contenedorCarrito.appendChild(totalDiv);
+    totalDiv.classList.add("shopping-cart-total");
+    
+    const total = miCarrito.reduce((acc, p) => acc + p.precio, 0);
+    
+    totalDiv.innerHTML = `
+    <div class="shopping-cart-finish">
+    <h3 class="shopping-cart-total" id="shopping-cart-total">Total: $${total}</h3>
+    <button class="shopping-cart-button" id="shopping-cart-button">Finalizar compra</button>
+    </div>`;
+    
+    contenedorCarrito.appendChild(totalDiv);
+    activarBotonesEliminar();
 }
 
 if (contenedorCarrito) {
     actualizarCarrito();
-}
-
-contadorCarrito.innerText = `Mi carrito(${miCarrito.length})`;
-
-for (let i = 0; i < productos.length; i++){
-    const idProducto = `product${i + 1}`
-    const idPrecio = `product${i + 1}-price`
-    const idImg = `product${i + 1}-img`
-
-    let elementoProducto = document.getElementById(idProducto);
-    let elementoPrecio = document.getElementById(idPrecio);
-    let elementoImagen = document.getElementById(idImg);
-
-    if(elementoProducto && elementoPrecio && elementoImagen){
-        elementoProducto.innerText = `${productos[i].marca} ${productos[i].modelo}`
-        elementoPrecio.innerText = `$${productos[i].precio}`;
-        elementoImagen.src = productos[i].imagen;
-        elementoImagen.alt = `Tarjeta grafica ${productos[i].modelo}`
-    }
+    contadorCarrito.innerText = `Mi carrito(${miCarrito.length})`;
 }
