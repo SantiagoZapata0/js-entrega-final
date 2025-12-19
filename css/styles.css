@@ -5,11 +5,12 @@
     font-family: 'Poppins';
 }
 
-body{
-    background-color: #ededed;
-}
 
 /* Pre-home */
+
+.body-index{
+    background: linear-gradient(to left, #3030b8, #7a96f1);
+}
 
 .main-prehome{
     display: flex;
@@ -24,11 +25,11 @@ body{
         justify-self: center;
         text-align: center;
         font-size: 1rem;
-        background-color: #3131de;
+        background: linear-gradient(to left, #171761, #375fe2);
         color: #fff;
         padding: 5rem;
         border-radius: 1rem;
-        box-shadow: 1px 1px 6px 1px rgb(0, 0, 80 );
+        box-shadow: 1px 1px 20px 1px rgb(0, 0, 80 );
         height: 350px;
         width: 80%;
     ;
@@ -80,12 +81,16 @@ body{
     }
     
     .welcome-form button:hover{
-        background-color: #0000a2;
+        background-color: #2a75ca;
         color: #fff;
         transition: 0.3s;
     }
 
 /* Home */
+
+body{
+    background: linear-gradient(to right, #ffffff, #dddaff);
+}
 
 .main-header{
     display: flex;
@@ -107,16 +112,17 @@ body{
 }
 
 header i {
-    color: #3131de;
+    color: #0000a2;
     font-size: 1.4rem;
 }
 
 header a{
     text-decoration: none;
-    color: #000;
+    color: #000000;
     margin-left: 0.7rem;
     font-size: 1.4rem;
     font-weight: 600;
+    font-style: italic;
 }
 
 header a:hover{
@@ -127,33 +133,37 @@ header a:hover{
 .navbar{
     display: flex;
     justify-content: space-evenly;
-    background-color: #0000a2;
-    width: 100%;
     height: 50px;
     margin-top: 1rem;
     align-items: center;
-    color: white;
+    color: #fff;
+
 }
 
 .navbar ul{
     display: flex;
     gap: 2.5rem;
+    
 }
 
 .navbar li{
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    background: linear-gradient(to left, #0f12e2, #7993e9);
+    padding: 1rem;
+    border-radius: 5rem;
+
 }
 
 .navbar a{
     text-decoration: none;
     color: #fff;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 400;
     margin-left: 10px;
 }
 
 .navbar a:hover{
-    color: #ababee;
+    color: #4b4bad;
     transition: 0.3s;
 }
 
@@ -172,6 +182,7 @@ header a:hover{
     grid-column: 1/-1;
     font-weight: 600 bold;
     font-size: 1.8rem;
+    color: #000;
 }
 
 .product-card{
@@ -179,7 +190,7 @@ header a:hover{
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    background-color: #fff;
+    background: linear-gradient(to bottom, #ffffff, #d9d6ff);
     width: 230px;
     height: 380px;
     border-radius: 1rem;
@@ -213,7 +224,7 @@ header a:hover{
 }
 
 .product-button{
-    background-color: #3131de;
+    background: linear-gradient(to top, #060881, #6c89e9);
     color:#fff;
     margin-top: 1rem;
     cursor: pointer;
@@ -223,10 +234,10 @@ header a:hover{
 }
 
 .product-button:hover{
-    background-color: #0c2167;
-    color:#fff;
-    border: none;
     transition: 0.3s;
+    background: linear-gradient(to top, #30328a, #8da2e7);
+    color:#ffffff;
+    border: none;
 }
 
 /* Mi carrito */
