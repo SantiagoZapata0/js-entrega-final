@@ -224,20 +224,19 @@ header a:hover{
 }
 
 .product-button{
-    background: linear-gradient(to top, #060881, #6c89e9);
+    background: linear-gradient(to top, #0608b8, #5b7dee);
     color:#fff;
     margin-top: 1rem;
     cursor: pointer;
     border-radius: 0.5rem;
-    padding: 0.3rem;
+    padding: 0.4rem;
     border: none;
 }
 
 .product-button:hover{
     transition: 0.3s;
-    background: linear-gradient(to top, #30328a, #8da2e7);
+    background: linear-gradient(to top, #080a68, #5374df);
     color:#ffffff;
-    border: none;
 }
 
 /* Mi carrito */
@@ -274,19 +273,20 @@ header a:hover{
 .botonEliminar{
     width: 25px;
     height: 25px;
-    padding: 0.1rem;
-    font-weight: 900;
-    color: #fff;
-    background-color: #3131de;
+    padding: 0 0 1.7rem 0;
+    font-weight: 900 bold;
+    font-size: 1.3rem;
+    color: #0000a2;
+    background: #fff;
     border: none;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     margin-left: 0.5rem;
 }
 
 .botonEliminar:hover{
-    background-color: #0c2167;
     transition: 0.3s;
+    color: #5658d8;
 }
 
 .shopping-cart-finish{
@@ -307,6 +307,23 @@ header a:hover{
 }
 
 .shopping-cart-button:hover{
+    background-color: #0000a2;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.shopping-cart-button-delete{
+    border: none;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+    background-color: #3131de;
+    color: #fff;
+    margin: 1.2rem 0 0 30rem;
+    cursor: pointer;
+}
+
+.shopping-cart-button-delete:hover{
     background-color: #0000a2;
     color: #fff;
     transition: 0.3s;

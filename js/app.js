@@ -155,6 +155,7 @@ botones.forEach((boton, index) => {
 
 function activarBotonesEliminar() {
     const botonesEliminar = document.querySelectorAll(".botonEliminar")
+    const botonEliminarTodo = document.getElementById("shopping-cart-button-delete");
     
     botonesEliminar.forEach((boton) => {
         boton.addEventListener("click", () => {
@@ -163,13 +164,38 @@ function activarBotonesEliminar() {
             contadorCarrito.innerText = `Mi carrito(${miCarrito.length})`;
         })
     })
+
+    botonEliminarTodo.addEventListener("click", async () => {
+        const result = await Swal.fire({
+            title: "Estas seguro que quieres vaciar el carrito?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3836dbff",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, vaciar",
+            cancelButtonText: "Cancelar"
+            });
+            if (result.isConfirmed) {
+                await Swal.fire({
+                    title: "Has vaciado el carrito.",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                miCarrito = [];
+                sessionStorage.removeItem ("miCarrito");
+                actualizarCarrito();
+                if (contadorCarrito) contadorCarrito.innerText = `Mi carrito(${miCarrito.length})`;
+        };
+    });
 }
 function eliminardelCarrito(index) {
+    const productoEliminado = miCarrito[index]
     miCarrito.splice(index, 1);
     console.log(eliminardelCarrito);
     
     Toastify({
-                text: `Has eliminado ${productos[index].marca} ${productos[index].modelo} del carrito.`,
+                text: `Has eliminado ${productoEliminado.marca} ${productoEliminado.modelo} del carrito.`,
                 duration: 3000,
                 direction:"../pages/micarrito.html",
                 gravity: "bottom",
@@ -185,7 +211,7 @@ function eliminardelCarrito(index) {
 
 function actualizarCarrito(){
     contenedorCarrito.innerHTML = `
-    <h2 class="shopping-cart-title" id="shopping-cart-title">Productos agregados</h2>
+    <h2 class="shopping-cart-title" id="shopping-cart-title">Tu carrito</h2>
     <h3 class="shopping-cart-message" id="shopping-cart-message">Los productos que agregues se van a mostrar aca.</h3>`;
     if (miCarrito.length === 0) {
         mensajeVacio.style.display = "block";
@@ -203,25 +229,26 @@ function actualizarCarrito(){
         item.innerHTML = `
         <img class ="shopping-cart-image" src="${producto.imagen}">
         <h3>${producto.marca} ${producto.modelo} - $${producto.precio}</h3>
-        <button class="botonEliminar" data-index ="${index}">X</button>
+        <button class="botonEliminar" data-index ="${index}"><i class="fa-solid fa-trash"></i></button>
         `;
         contenedorCarrito.appendChild(item);
     });
     const totalDiv = document.createElement("div");
     totalDiv.classList.add("shopping-cart-total");
     
-    const total = miCarrito.reduce((acc, p) => acc + p.precio, 0);
+    const total = miCarrito.reduce((acc, prod) => acc + prod.precio, 0);
     
     totalDiv.innerHTML = `
     <div class="shopping-cart-finish">
     <h3 class="shopping-cart-total" id="shopping-cart-total">Total: $${total}</h3>
+    <button class="shopping-cart-button-delete" id="shopping-cart-button-delete">Vaciar carrito</button>
     <button class="shopping-cart-button" id="shopping-cart-button">Finalizar compra</button>
     </div>`;
     
     contenedorCarrito.appendChild(totalDiv);
     const botonFinalizar = document.getElementById("shopping-cart-button")
     if (botonFinalizar){
-        botonFinalizar.addEventListener("click", finalizarCompra)
+        botonFinalizar.addEventListener("click", finalizarCompra);
     }
     activarBotonesEliminar();
 }
@@ -236,7 +263,7 @@ if (contenedorCarrito) {
 const procesoDePago = () => {
     return new Promise ((resolve, reject) => {
         setTimeout(() => {
-            const exito = Math.random() > 0.5;
+            const exito = Math.random() > 0.2;
             if(exito){
                 resolve ({estado: "aprobado", transaccionId: "TX-12345"});
             } else {
