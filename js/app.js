@@ -198,6 +198,7 @@ function activarBotonesEliminar() {
                 await Swal.fire({
                     title: "Has vaciado el carrito.",
                     icon: "success",
+                    iconColor: "#2c7bd4ff",
                     showConfirmButton: false,
                     timer: 1500,
                 });

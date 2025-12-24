@@ -167,7 +167,6 @@ header a:hover{
 .navbar ul{
     display: flex;
     gap: 2.5rem;
-    
 }
 
 .navbar li{
@@ -175,7 +174,12 @@ header a:hover{
     background: linear-gradient(to left, #0f12e2, #7993e9);
     padding: 1rem;
     border-radius: 5rem;
+}
 
+.navbar li:hover{
+    background: linear-gradient(to left, #030579, #4e70dd);
+    transition: 0.3s;
+    cursor: pointer;
 }
 
 .navbar a{
@@ -187,7 +191,7 @@ header a:hover{
 }
 
 .navbar a:hover{
-    color: #4b4bad;
+    color: #bbbbf3;
     transition: 0.3s;
 }
 
