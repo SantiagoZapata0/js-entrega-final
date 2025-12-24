@@ -9,7 +9,7 @@
 /* Pre-home */
 
 .body-index{
-    background: linear-gradient(to left, #3030b8, #7a96f1);
+    background: linear-gradient(to right, #274db4, #bfb9ff);
 }
 
 .main-prehome{
@@ -25,29 +25,54 @@
         justify-self: center;
         text-align: center;
         font-size: 1rem;
-        background: linear-gradient(to left, #171761, #375fe2);
+        background: linear-gradient(to left, #1f1f77, #4f76f5);
         color: #fff;
-        padding: 5rem;
+        padding: 3rem 6rem 6rem 6rem;
         border-radius: 1rem;
         box-shadow: 1px 1px 20px 1px rgb(0, 0, 80 );
-        height: 350px;
-        width: 80%;
-    ;
+        height: 80%;
+        width: 30%;
+        transition: 0.3s;
+    }
+
+    .form-usuario{
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        text-align: start;
+        margin: 0;
+    }
+
+    .form-usuario label{
+        font-size: 1.5rem;
+        font-weight: 300;
     }
 
     .welcome{
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 50%;
         height: 100%;
     }
 
     .welcome-message{
+        font-size: 3rem;
+        text-align: center;
         font-weight: 600;
     }
 
+    .welcome-message span{
+        background: linear-gradient(to right, #9fc9ff, #0753f8); 
+        -webkit-background-clip: text; 
+        background-clip: text; 
+        color: transparent;
+        font-weight: bold; 
+}
+
     .welcome-subtitle{
+        margin-top: 1rem;
         font-weight: 400;
+        font-size: 1.6rem;
     }
 
     .welcome-form{
@@ -62,26 +87,24 @@
         width: 5%;
     }
 
-    .welcome-form label{
-        margin: 0 1rem 0 1rem;
-    }
-
     .welcome-form input{
         padding:0.3rem;
         border-radius: 0.5rem;
+        background: #ffffff;
         border: none;
     }
+
     .welcome-form button{
         padding: 0.4rem;
         width: 100px;
-        margin: 1rem 0 0 1rem;
+        margin-top: 0.8rem;
         border-radius: 0.8rem;
         border: none;
         cursor: pointer;
     }
     
     .welcome-form button:hover{
-        background-color: #2a75ca;
+        background: linear-gradient(to left, #171761, #375fe2);
         color: #fff;
         transition: 0.3s;
     }
@@ -107,8 +130,10 @@ body{
 
 .main-title{
     font-size: 2.5rem;
-    font-style: italic;
-    color: #0000a2;
+    background: linear-gradient(to left, #699adb, #0753f8); 
+    -webkit-background-clip: text; 
+    background-clip: text; 
+    color: transparent; 
 }
 
 header i {
@@ -276,7 +301,7 @@ header a:hover{
     padding: 0 0 1.7rem 0;
     font-weight: 900 bold;
     font-size: 1.3rem;
-    color: #0000a2;
+    color: #3131de;
     background: #fff;
     border: none;
     border-radius: 0.5rem;
@@ -286,7 +311,7 @@ header a:hover{
 
 .botonEliminar:hover{
     transition: 0.3s;
-    color: #5658d8;
+    color: #1b1d63;
 }
 
 .shopping-cart-finish{
@@ -318,14 +343,29 @@ header a:hover{
     font-size: 0.9rem;
     border-radius: 0.5rem;
     background-color: #3131de;
-    color: #fff;
     margin: 1.2rem 0 0 30rem;
+    color: #fff;
     cursor: pointer;
 }
 
 .shopping-cart-button-delete:hover{
     background-color: #0000a2;
     color: #fff;
+    transition: 0.3s;
+}
+
+.shopping-cart-add-mp{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    color: #000000;
+    margin-top: 2rem ;
+    cursor: pointer;
     transition: 0.3s;
 }
 
@@ -353,4 +393,5 @@ header a:hover{
 .account-data-list li{
     list-style: none;
     font-size: 1.2rem;
+    font-weight: 600;
 }

@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "marca": "MSI",
+        "modelo": "NVIDIA RTX 3050",
+        "precio": 250000,
+        "imagen": "../assets/MSI RTX 3050.jpg"
+    },
+    {
+        "id": 2,
+        "marca": "Gygabite",
+        "modelo": "NVIDIA RTX 3060",
+        "precio": 350000,
+        "imagen": "../assets/Gygabite RTX 3060.jpg"
+    },
+    {
+        "id": 3,
+        "marca": "Gygabite",
+        "modelo": "NVIDIA RTX 3070 TI",
+        "precio": 420000,
+        "imagen": "../assets/Gygabite RTX 3070 TI.jpg"
+    },
+    {
+        "id": 4,
+        "marca": "Palit",
+        "modelo": "NVIDIA RTX 4060",
+        "precio": 450000,
+        "imagen": "../assets/PALIT RTX 4060.png"
+    },
+    {
+        "id": 5,
+        "marca": "Galax",
+        "modelo": "NVIDIA RTX 4080",
+        "precio": 520000,
+        "imagen": "../assets/Galax RTX 4080.png"
+    },
+    {
+        "id": 6,
+        "marca": "ZOTAC",
+        "modelo": "NVIDIA RTX 5060",
+        "precio": 650000,
+        "imagen": "../assets/ZOTAC RTX 5060.jpg"
+    }
+]

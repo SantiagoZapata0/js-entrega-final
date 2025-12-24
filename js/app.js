@@ -1,66 +1,72 @@
 // Simulador de E-Commerce de productos tecnologicos.
 
-const formulario = document.getElementById("form-usuario");
+function inicializarFormularioUsuario() {
+    const formulario = document.getElementById("form-usuario");
+    if (!formulario) return;
 
-if(formulario){
-    formulario.addEventListener("submit", async (e) => {
-        e.preventDefault();
-    
-        let nombre = document.getElementById("username").value.trim(); 
-        let edad = parseInt(document.getElementById("edad").value);
-        let email = document.getElementById("email").value.trim();
-    
-        if (!nombre || !edad || !email) {
-            Swal.fire({
-                icon: "error",
-                title: "Lo sentimos.",
-                text: "Todos los campos son obligatorios!",
-                showConfirmButton: false,
-                timer: 1000
-            })
-            return;
-        }
-    
-        if (edad < 18) {
-            Swal.fire({
-                icon: "error",
-                title: "Lo sentimos.",
-                text: "Debes ser mayor de 18 años para ingresar.",
-                showConfirmButton: false,
-                timer: 1000
-            })
-            return;
-        }
-    
-        if (!email.includes("@")) {
-            Swal.fire({
-                icon: "error",
-                title: "Lo sentimos.",
-                text: "El email no tiene un formato válido (debe contener '@').",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            return;
-        }
-    
-        const datosUsuario = {
-            username: nombre,
-            edad: edad,
-            email: email
-        };
-    
-        sessionStorage.setItem('usuarioRegistrado', JSON.stringify(datosUsuario));
-    
-        await Swal.fire({
-        icon: "success",
-        title: `Bienvenido ${datosUsuario.username}!`,
-        text: "Lo estabamos esperando!",
-        showConfirmButton: true,
-        confirmButton: "Continuar"
-        });
-            window.location.href = 'pages/home.html';
-    });
+    formulario.addEventListener("submit", manejarSubmitFormulario);
 }
+
+async function manejarSubmitFormulario (e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById("username").value.trim(); 
+    const edad = parseInt(document.getElementById("edad").value);
+    const email = document.getElementById("email").value.trim();
+    
+    if (!nombre || !edad || !email) {
+        Swal.fire({
+            icon: "error",
+            title: "Lo sentimos.",
+            text: "Todos los campos son obligatorios!",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return;
+    }
+    
+    if (edad < 18) {
+        Swal.fire({
+            icon: "error",
+            title: "Lo sentimos.",
+            text: "Debes ser mayor de 18 años para ingresar.",
+            showConfirmButton: false,
+            timer: 1000
+        })
+        return;
+    }
+    
+    if (!email.includes("@")) {
+        Swal.fire({
+            icon: "error",
+            title: "Lo sentimos.",
+            text: "El email no tiene un formato válido (debe contener '@').",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        return;
+    }
+    
+    const datosUsuario = {
+        username: nombre,
+        edad: edad,
+        email: email
+    };
+    
+    sessionStorage.setItem('usuarioRegistrado', JSON.stringify(datosUsuario));
+    
+    await Swal.fire({
+    icon: "success",
+    iconColor: "#2c7bd4ff",
+    title: `Bienvenido ${datosUsuario.username}!`,
+    text: "Lo estabamos esperando!",
+    showConfirmButton: false,
+    timer: 2000
+    });
+        window.location.href = 'pages/home.html';
+}
+
+inicializarFormularioUsuario();
 
 function cargarDatosUser (){
     const datos = sessionStorage.getItem('usuarioRegistrado')
@@ -91,31 +97,42 @@ class Producto {
     }
 }
 
-const productos = [
-new Producto (1, "MSI", " NVIDIA RTX 3050", 250000, "../assets/MSI RTX 3050.jpg"),
-new Producto (2, "Gygabite", " NVIDIA RTX 3060", 350000, "../assets/Gygabite RTX 3060.jpg"),
-new Producto (3, "Gygabite", " NVIDIA RTX 3070 TI", 420000, "../assets/Gygabite RTX 3070 TI.jpg"),
-new Producto (4, "Palit", "NVIDIA RTX 4060", 450000, "../assets/PALIT RTX 4060.png"),
-new Producto (5, "Galax", "NVIDIA RTX 4080", 520000, "../assets/Galax RTX 4080.png" ),
-new Producto (6, "ZOTAC", " NVIDIA RTX 5060", 650000, "../assets/ZOTAC RTX 5060.jpg")
-]
+let productos = []
 
-for (let i = 0; i < productos.length; i++){
-    const idProducto = `product${i + 1}`
-    const idPrecio = `product${i + 1}-price`
-    const idImg = `product${i + 1}-img`
+async function cargarMostrarProductos () {
+    try{
+        const response = await fetch("../data/productos.json");
+        const data = await response.json();
 
-    let elementoProducto = document.getElementById(idProducto);
-    let elementoPrecio = document.getElementById(idPrecio);
-    let elementoImagen = document.getElementById(idImg);
-
-    if(elementoProducto && elementoPrecio && elementoImagen){
-        elementoProducto.innerText = `${productos[i].marca} ${productos[i].modelo}`
-        elementoPrecio.innerText = `$${productos[i].precio}`;
-        elementoImagen.src = productos[i].imagen;
-        elementoImagen.alt = `Tarjeta grafica ${productos[i].modelo}`
+        productos = data.map(prod =>
+            new Producto(prod.id, prod.marca, prod.modelo, prod.precio, prod.imagen)
+        );
+        renderizarInterfaz();
+    } catch (error) {
+        console.error("Ocurrio un error al cargar los productos:", error)
     }
 }
+
+function renderizarInterfaz(){
+    for (let i = 0; i < productos.length; i++){
+        const idProducto = `product${i + 1}`
+        const idPrecio = `product${i + 1}-price`
+        const idImg = `product${i + 1}-img`
+    
+        let elementoProducto = document.getElementById(idProducto);
+        let elementoPrecio = document.getElementById(idPrecio);
+        let elementoImagen = document.getElementById(idImg);
+    
+        if (elementoProducto && elementoPrecio && elementoImagen){
+            elementoProducto.innerText = `${productos[i].marca} ${productos[i].modelo}`
+            elementoPrecio.innerText = `$${productos[i].precio}`;
+            elementoImagen.src = productos[i].imagen;
+            elementoImagen.alt = `Tarjeta grafica ${productos[i].modelo}`
+        }
+    }
+}
+
+cargarMostrarProductos();
 
 let miCarrito = JSON.parse(sessionStorage.getItem("miCarrito")) || [];
 const contenedorCarrito = document.getElementById("shopping-cart");
@@ -140,7 +157,7 @@ botones.forEach((boton, index) => {
     Toastify({
         text: `${productos[index].marca} ${productos[index].modelo} ha sido agregado al carrito.`,
         duration: 3000,
-        direction:"../pages/micarrito.html",
+        destination:"../pages/micarrito.html",
         gravity: "bottom",
         position: "right",
         style:{
@@ -169,11 +186,12 @@ function activarBotonesEliminar() {
         const result = await Swal.fire({
             title: "Estas seguro que quieres vaciar el carrito?",
             icon: "warning",
+            iconColor: "#0000a2",
             showCancelButton: true,
-            confirmButtonColor: "#3836dbff",
+            confirmButtonColor: "#0000a2",
             cancelButtonColor: "#d33",
             confirmButtonText: "Si, vaciar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
             });
             if (result.isConfirmed) {
                 await Swal.fire({
@@ -244,6 +262,35 @@ function actualizarCarrito(){
     <button class="shopping-cart-button-delete" id="shopping-cart-button-delete">Vaciar carrito</button>
     <button class="shopping-cart-button" id="shopping-cart-button">Finalizar compra</button>
     </div>`;
+
+    const metodosPagoDiv = document.createElement("div");
+    metodosPagoDiv.classList.add("shopping-cart-add-mp");
+
+    metodosPagoDiv.innerHTML = `
+    <h3>Métodos de pago:</h3>
+
+    <label>
+        <input type="radio" name="pago" value="credito">
+        Tarjeta de crédito
+    </label>
+
+    <label>
+        <input type="radio" name="pago" value="debito">
+        Tarjeta de débito
+    </label>
+
+    <label>
+        <input type="radio" name="pago" value="transferencia">
+        Transferencia bancaria
+    </label>
+
+    <label>
+        <input type="radio" name="pago" value="mercadopago">
+        MercadoPago
+    </label>
+    `;
+
+        contenedorCarrito.appendChild(metodosPagoDiv);
     
     contenedorCarrito.appendChild(totalDiv);
     const botonFinalizar = document.getElementById("shopping-cart-button")
@@ -265,7 +312,7 @@ const procesoDePago = () => {
         setTimeout(() => {
             const exito = Math.random() > 0.2;
             if(exito){
-                resolve ({estado: "aprobado", transaccionId: "TX-12345"});
+                resolve ({estado: "Aprobado", transaccionId: Math.floor (Math.random() * 1000000)});
             } else {
                 reject(new Error ("Fondos insuficientes o error de conexion."))
             }
@@ -273,19 +320,42 @@ const procesoDePago = () => {
     })
 }
 
+function obtenerMetodoPago() {
+    const metodo = document.querySelector('input[name="pago"]:checked');
+    return metodo ? metodo.value : null;
+}
+
 async function finalizarCompra () {
+    
     if (miCarrito.length === 0){
         Swal.fire("Carrito vacio","Agrega algo antes de comprar", "warning");
         return;
     }
 
+    const metodoPago = obtenerMetodoPago();
+
+    if (!metodoPago){
+        Swal.fire({
+            icon: "warning",
+            iconColor: "#ff0000",
+            title: "Selecciona un metodo de pago",
+            text: "Para continuar elegi como pagar.",
+            showConfirmButton: false,
+            timer: 2000
+        })
+        return;
+    }
+
     const {isConfirmed} = await Swal.fire({
         title: "Confirmar pedido?",
-        text: `Estas por pagar un total de $${miCarrito.reduce((acc,p) => acc + p.precio, 0)}`,
+        text: `Metodo: ${metodoPago.toUpperCase()} | Total: $${miCarrito.reduce((acc,p) => acc + p.precio, 0)}`,
         icon: "question",
+        iconColor: "#0000a2",
         showCancelButton: true,
         confirmButtonText: "Si, pagar ahora",
-        cancelButtonText: "Seguir comprando"
+        confirmButtonColor: "#0000a2",
+        cancelButtonText: "Volver atras",
+        cancelButtonColor: "#d33"
     });
 
     if (!isConfirmed) return;
@@ -305,8 +375,11 @@ async function finalizarCompra () {
 
         await Swal.fire ({
             icon: "success",
+            iconColor: "#2c7bd4ff",
             title: "Compra realizada!",
-            text: `Tu numero de ticket es: ${resultado.transaccionId}`
+            text: `Tu numero de ticket es: ${resultado.transaccionId}`,
+            confirmButtonText: "Volver a la tienda",
+            confirmButtonColor: "#0000a2",
         });
 
         miCarrito = [];
@@ -319,6 +392,8 @@ async function finalizarCompra () {
             icon: "error",
             title: "Pago rechazado",
             text: error.message,
+            confirmButtonText: "Volver a pagar",
+            confirmButtonColor: "#0000a2",
         })
     }
 }
