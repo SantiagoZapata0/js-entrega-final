@@ -133,6 +133,7 @@ function renderizarInterfaz(){
 }
 
 cargarMostrarProductos();
+cargarMetodosPago();
 
 let miCarrito = JSON.parse(sessionStorage.getItem("miCarrito")) || [];
 const contenedorCarrito = document.getElementById("shopping-cart");
@@ -227,7 +228,43 @@ function eliminardelCarrito(index) {
     actualizarCarrito();
 }
 
-function actualizarCarrito(){
+class MetodoPago {
+    constructor(id, nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+}
+
+let metodosPago = [];
+
+async function cargarMetodosPago () {
+    try{
+        const response = await fetch ("../data/metodosDePago.json")
+        const data = await response.json();
+        metodosPago = data.map(m => new MetodoPago (m.id, m.nombre));
+    } catch (error){
+        console.error("Error al cargar los metodos de pago", error)
+    }
+}
+
+function renderizarMetodosPago () {
+    const metodosPagoDiv = document.createElement("div");
+    metodosPagoDiv.classList.add("shopping-cart-add-mp");
+
+    metodosPagoDiv.innerHTML = "<h3>Metodos de pago:</h3>";
+
+    metodosPago.forEach(metodo => {
+        metodosPagoDiv.innerHTML += `
+            <label>
+                <input type="radio" name="pago" value="${metodo.id}">
+                ${metodo.nombre}
+            </label>
+        `;
+    });
+    return metodosPagoDiv;
+};
+
+async function actualizarCarrito(){
     contenedorCarrito.innerHTML = `
     <h2 class="shopping-cart-title" id="shopping-cart-title">Tu carrito</h2>
     <h3 class="shopping-cart-message" id="shopping-cart-message">Los productos que agregues se van a mostrar aca.</h3>`;
@@ -263,35 +300,13 @@ function actualizarCarrito(){
     <button class="shopping-cart-button" id="shopping-cart-button">Finalizar compra</button>
     </div>`;
 
-    const metodosPagoDiv = document.createElement("div");
-    metodosPagoDiv.classList.add("shopping-cart-add-mp");
+    if (metodosPago.length === 0){
+        await cargarMetodosPago();
+    }
 
-    metodosPagoDiv.innerHTML = `
-    <h3>Métodos de pago:</h3>
+    const metodosPagoDiv = renderizarMetodosPago();
+    contenedorCarrito.appendChild(metodosPagoDiv);
 
-    <label>
-        <input type="radio" name="pago" value="credito">
-        Tarjeta de crédito
-    </label>
-
-    <label>
-        <input type="radio" name="pago" value="debito">
-        Tarjeta de débito
-    </label>
-
-    <label>
-        <input type="radio" name="pago" value="transferencia">
-        Transferencia bancaria
-    </label>
-
-    <label>
-        <input type="radio" name="pago" value="mercadopago">
-        MercadoPago
-    </label>
-    `;
-
-        contenedorCarrito.appendChild(metodosPagoDiv);
-    
     contenedorCarrito.appendChild(totalDiv);
     const botonFinalizar = document.getElementById("shopping-cart-button")
     if (botonFinalizar){

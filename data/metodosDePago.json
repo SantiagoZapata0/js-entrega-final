@@ -1,0 +1,18 @@
+[
+    {
+        "id": "credito",
+        "nombre": "Tarjeta de crédito"
+    },
+    {
+        "id": "debito",
+        "nombre": "Tarjeta de débito"
+    },
+    {
+        "id": "transferencia",
+        "nombre": "Transferencia bancaria"
+    },
+    {
+        "id": "mercadopago",
+        "nombre": "MercadoPago"
+    }
+]
